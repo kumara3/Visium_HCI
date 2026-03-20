@@ -78,3 +78,17 @@ def run_all_markers(df, group_col, markers):
         all_results.append(res)
     
     return pd.concat(all_results, ignore_index=True)
+
+def add_significance(df):
+    def interpret_p(p):
+        if p < 0.001:
+            return "***"
+        elif p < 0.01:
+            return "**"
+        elif p < 0.05:
+            return "*"
+        else:
+            return "ns"
+    
+    df["significance"] = df["p_value"].apply(interpret_p)
+    return df

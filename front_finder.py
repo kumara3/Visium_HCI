@@ -163,23 +163,31 @@ st.subheader("Region Counts")
 
 st.write(spots["region"].value_counts())
 
+# roi comparisons
+st.subheader("ROI")
+markers = ["tumor_probability", "immune_score", "proliferation_index", "uncertainty"]
 
-# roi comparison
-st.subheader("ROI Statistical Comparisons")
 
-markers = [
-    "tumor_probability",
-    "immune_score",
-    "proliferation_index",
-    "uncertainty"
-]
+filtered_spots = spots[spots["region"] != "other"]
 
-if st.button("Run Statistical Analysis"):
-    
-    results = run_all_markers(
-        spots,
-        group_col="region",
-        markers=markers
-    )
-    
-    st.dataframe(results)
+# comparisons
+results = run_all_markers(filtered_spots, group_col="region", markers=markers)
+
+results["p_value"] = results["p_value"].apply(lambda x: f"{x:.2e}")
+sig_results = results[(results["effect_size_d"].abs() > 0.5)]
+
+st.write("### Comparisons")
+st.dataframe(sig_results.sort_values("p_value"))
+
+st.write("### Side-by-side Boxplots")
+for marker in markers:
+    with st.expander(f"Boxplot: {marker}"):
+        fig_box = px.box(
+            filtered_spots,
+            x="region",
+            y=marker,
+            color="region",
+            points="all",
+            title=f"{marker} by Region"
+        )
+        st.plotly_chart(fig_box, use_container_width=True)
