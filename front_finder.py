@@ -5,7 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 import plotly.express as px
 from PIL import Image
 from pathlib import Path
-
+from roi_comparison import run_all_markers
 
 
 @st.cache_data
@@ -162,3 +162,24 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("Region Counts")
 
 st.write(spots["region"].value_counts())
+
+
+# roi comparison
+st.subheader("ROI Statistical Comparisons")
+
+markers = [
+    "tumor_probability",
+    "immune_score",
+    "proliferation_index",
+    "uncertainty"
+]
+
+if st.button("Run Statistical Analysis"):
+    
+    results = run_all_markers(
+        spots,
+        group_col="region",
+        markers=markers
+    )
+    
+    st.dataframe(results)
