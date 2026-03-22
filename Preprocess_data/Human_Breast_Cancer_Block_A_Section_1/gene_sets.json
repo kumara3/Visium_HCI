@@ -1,0 +1,34 @@
+{
+  "immune_score": [
+    "PTPRC",
+    "CD3D",
+    "CD3E",
+    "TRAC",
+    "MS4A1",
+    "LYZ",
+    "NKG7",
+    "FCGR3A"
+  ],
+  "proliferation_index": [
+    "MKI67",
+    "TOP2A",
+    "PCNA",
+    "MCM2",
+    "MCM3",
+    "TYMS",
+    "HMGB2"
+  ],
+  "tumor_marker_score": [
+    "EPCAM",
+    "KRT8",
+    "KRT18",
+    "KRT19",
+    "MSLN"
+  ],
+  "normal_marker_score": [
+    "COL1A1",
+    "COL1A2",
+    "DCN",
+    "LUM"
+  ]
+}
